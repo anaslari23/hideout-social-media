@@ -3,12 +3,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { 
   Home, 
-  Search, 
-  Heart, 
-  PlusSquare, 
-  User,
-  MessageCircle,
-  Bell,
+  MessageSquare, 
+  Users, 
+  Camera,
+  Film,
+  Headphones,
   Settings
 } from "lucide-react";
 
@@ -30,11 +29,11 @@ const Sidebar: React.FC = () => {
             }
           >
             <Home className="mr-3 h-5 w-5" />
-            <span className="font-medium">Home</span>
+            <span className="font-medium">Feed</span>
           </NavLink>
           
           <NavLink 
-            to="/explore" 
+            to="/threads" 
             className={({ isActive }) => 
               `flex items-center px-4 py-3 rounded-lg ${
                 isActive 
@@ -43,12 +42,12 @@ const Sidebar: React.FC = () => {
               }`
             }
           >
-            <Search className="mr-3 h-5 w-5" />
-            <span className="font-medium">Explore</span>
+            <MessageSquare className="mr-3 h-5 w-5" />
+            <span className="font-medium">Threads</span>
           </NavLink>
           
           <NavLink 
-            to="/notifications" 
+            to="/connect" 
             className={({ isActive }) => 
               `flex items-center px-4 py-3 rounded-lg ${
                 isActive 
@@ -57,12 +56,12 @@ const Sidebar: React.FC = () => {
               }`
             }
           >
-            <Bell className="mr-3 h-5 w-5" />
-            <span className="font-medium">Notifications</span>
+            <Users className="mr-3 h-5 w-5" />
+            <span className="font-medium">Connect</span>
           </NavLink>
           
           <NavLink 
-            to="/messages" 
+            to="/quickpic" 
             className={({ isActive }) => 
               `flex items-center px-4 py-3 rounded-lg ${
                 isActive 
@@ -71,12 +70,12 @@ const Sidebar: React.FC = () => {
               }`
             }
           >
-            <MessageCircle className="mr-3 h-5 w-5" />
-            <span className="font-medium">Messages</span>
+            <Camera className="mr-3 h-5 w-5" />
+            <span className="font-medium">QuickPic</span>
           </NavLink>
           
           <NavLink 
-            to="/create" 
+            to="/films" 
             className={({ isActive }) => 
               `flex items-center px-4 py-3 rounded-lg ${
                 isActive 
@@ -85,12 +84,12 @@ const Sidebar: React.FC = () => {
               }`
             }
           >
-            <PlusSquare className="mr-3 h-5 w-5" />
-            <span className="font-medium">Create</span>
+            <Film className="mr-3 h-5 w-5" />
+            <span className="font-medium">Films</span>
           </NavLink>
           
           <NavLink 
-            to="/activity" 
+            to="/spaces" 
             className={({ isActive }) => 
               `flex items-center px-4 py-3 rounded-lg ${
                 isActive 
@@ -99,22 +98,8 @@ const Sidebar: React.FC = () => {
               }`
             }
           >
-            <Heart className="mr-3 h-5 w-5" />
-            <span className="font-medium">Activity</span>
-          </NavLink>
-          
-          <NavLink 
-            to="/profile" 
-            className={({ isActive }) => 
-              `flex items-center px-4 py-3 rounded-lg ${
-                isActive 
-                  ? "bg-gray-100 dark:bg-gray-700" 
-                  : "hover:bg-gray-100 dark:hover:bg-gray-700"
-              }`
-            }
-          >
-            <User className="mr-3 h-5 w-5" />
-            <span className="font-medium">Profile</span>
+            <Headphones className="mr-3 h-5 w-5" />
+            <span className="font-medium">Spaces</span>
           </NavLink>
         </nav>
       </div>

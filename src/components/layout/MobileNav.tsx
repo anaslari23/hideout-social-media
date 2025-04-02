@@ -3,10 +3,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { 
   Home, 
-  Search, 
-  PlusSquare, 
-  Heart, 
-  User
+  MessageSquare,
+  Users,
+  Camera,
+  Film,
+  Headphones
 } from "lucide-react";
 
 const MobileNav: React.FC = () => {
@@ -22,50 +23,67 @@ const MobileNav: React.FC = () => {
           }
         >
           <Home className="h-6 w-6" />
+          <span className="text-xs mt-1">Feed</span>
         </NavLink>
         
         <NavLink 
-          to="/explore" 
+          to="/threads" 
           className={({ isActive }) => 
             `flex flex-col items-center justify-center ${
               isActive ? "text-purple-600" : "text-gray-600 dark:text-gray-300"
             }`
           }
         >
-          <Search className="h-6 w-6" />
+          <MessageSquare className="h-6 w-6" />
+          <span className="text-xs mt-1">Threads</span>
         </NavLink>
         
         <NavLink 
-          to="/create" 
+          to="/connect" 
           className={({ isActive }) => 
             `flex flex-col items-center justify-center ${
               isActive ? "text-purple-600" : "text-gray-600 dark:text-gray-300"
             }`
           }
         >
-          <PlusSquare className="h-6 w-6" />
+          <Users className="h-6 w-6" />
+          <span className="text-xs mt-1">Connect</span>
         </NavLink>
         
         <NavLink 
-          to="/activity" 
+          to="/quickpic" 
           className={({ isActive }) => 
             `flex flex-col items-center justify-center ${
               isActive ? "text-purple-600" : "text-gray-600 dark:text-gray-300"
             }`
           }
         >
-          <Heart className="h-6 w-6" />
+          <Camera className="h-6 w-6" />
+          <span className="text-xs mt-1">QuickPic</span>
         </NavLink>
         
         <NavLink 
-          to="/profile" 
+          to="/films" 
           className={({ isActive }) => 
             `flex flex-col items-center justify-center ${
               isActive ? "text-purple-600" : "text-gray-600 dark:text-gray-300"
             }`
           }
         >
-          <User className="h-6 w-6" />
+          <Film className="h-6 w-6" />
+          <span className="text-xs mt-1">Films</span>
+        </NavLink>
+        
+        <NavLink 
+          to="/spaces" 
+          className={({ isActive }) => 
+            `flex flex-col items-center justify-center ${
+              isActive ? "text-purple-600" : "text-gray-600 dark:text-gray-300"
+            }`
+          }
+        >
+          <Headphones className="h-6 w-6" />
+          <span className="text-xs mt-1">Spaces</span>
         </NavLink>
       </div>
     </nav>
