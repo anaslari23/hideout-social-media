@@ -23,11 +23,9 @@ const MobileNav: React.FC = () => {
           }
         >
           <Home className="h-6 w-6" />
-          <span className={({ isActive }) => 
-            `mt-1 transition-all duration-200 ${
-              isActive ? "text-sm font-medium" : "text-xs"
-            }`
-          }>Feed</span>
+          <span className={`mt-1 transition-all duration-200 text-xs ${
+            location.pathname === "/feed" ? "text-sm font-medium" : "text-xs"
+          }`}>Feed</span>
         </NavLink>
         
         <NavLink 
@@ -39,11 +37,9 @@ const MobileNav: React.FC = () => {
           }
         >
           <MessageSquare className="h-6 w-6" />
-          <span className={({ isActive }) => 
-            `mt-1 transition-all duration-200 ${
-              isActive ? "text-sm font-medium" : "text-xs"
-            }`
-          }>Threads</span>
+          <span className={`mt-1 transition-all duration-200 text-xs ${
+            location.pathname === "/threads" ? "text-sm font-medium" : "text-xs"
+          }`}>Threads</span>
         </NavLink>
         
         <NavLink 
@@ -55,11 +51,9 @@ const MobileNav: React.FC = () => {
           }
         >
           <Users className="h-6 w-6" />
-          <span className={({ isActive }) => 
-            `mt-1 transition-all duration-200 ${
-              isActive ? "text-sm font-medium" : "text-xs"
-            }`
-          }>Connect</span>
+          <span className={`mt-1 transition-all duration-200 text-xs ${
+            location.pathname === "/connect" ? "text-sm font-medium" : "text-xs"
+          }`}>Connect</span>
         </NavLink>
         
         <NavLink 
@@ -71,11 +65,9 @@ const MobileNav: React.FC = () => {
           }
         >
           <Camera className="h-6 w-6" />
-          <span className={({ isActive }) => 
-            `mt-1 transition-all duration-200 ${
-              isActive ? "text-sm font-medium" : "text-xs"
-            }`
-          }>QuickPic</span>
+          <span className={`mt-1 transition-all duration-200 text-xs ${
+            location.pathname === "/quickpic" ? "text-sm font-medium" : "text-xs"
+          }`}>QuickPic</span>
         </NavLink>
         
         <NavLink 
@@ -87,11 +79,9 @@ const MobileNav: React.FC = () => {
           }
         >
           <Film className="h-6 w-6" />
-          <span className={({ isActive }) => 
-            `mt-1 transition-all duration-200 ${
-              isActive ? "text-sm font-medium" : "text-xs"
-            }`
-          }>Films</span>
+          <span className={`mt-1 transition-all duration-200 text-xs ${
+            location.pathname === "/films" ? "text-sm font-medium" : "text-xs"
+          }`}>Films</span>
         </NavLink>
         
         <NavLink 
@@ -103,11 +93,9 @@ const MobileNav: React.FC = () => {
           }
         >
           <Headphones className="h-6 w-6" />
-          <span className={({ isActive }) => 
-            `mt-1 transition-all duration-200 ${
-              isActive ? "text-sm font-medium" : "text-xs"
-            }`
-          }>Spaces</span>
+          <span className={`mt-1 transition-all duration-200 text-xs ${
+            location.pathname === "/spaces" ? "text-sm font-medium" : "text-xs"
+          }`}>Spaces</span>
         </NavLink>
       </div>
     </nav>
