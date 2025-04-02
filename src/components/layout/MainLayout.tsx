@@ -12,16 +12,18 @@ const MainLayout: React.FC = () => {
         <Sidebar />
       </div>
       
-      {/* Main content */}
-      <div className="flex-1">
-        <div className="container py-6 px-4 max-w-4xl mx-auto">
-          <Outlet />
+      <div className="flex-1 flex flex-col">
+        {/* Mobile navigation - visible only on mobile at the top */}
+        <div className="md:hidden sticky top-0 z-10">
+          <MobileNav />
         </div>
-      </div>
-      
-      {/* Mobile navigation - visible only on mobile */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-10">
-        <MobileNav />
+        
+        {/* Main content */}
+        <div className="flex-1">
+          <div className="container py-6 px-4 max-w-4xl mx-auto">
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );

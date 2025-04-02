@@ -15,6 +15,11 @@ import ProfilePage from "./pages/ProfilePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import MessagesPage from "./pages/MessagesPage";
 import NotFound from "./pages/NotFound";
+import ThreadsPage from "./pages/ThreadsPage";
+import ConnectPage from "./pages/ConnectPage";
+import QuickPicPage from "./pages/QuickPicPage";
+import FilmsPage from "./pages/FilmsPage";
+import SpacesPage from "./pages/SpacesPage";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +44,12 @@ const App = () => (
             <Route path="/create" element={<CreatePostPage />} />
             <Route path="/activity" element={<Navigate to="/notifications" />} />
             <Route path="/profile" element={<ProfilePage />} />
+            {/* New routes */}
+            <Route path="/threads" element={<ThreadsPage />} />
+            <Route path="/connect" element={<ConnectPage />} />
+            <Route path="/quickpic" element={<QuickPicPage />} />
+            <Route path="/films" element={<FilmsPage />} />
+            <Route path="/spaces" element={<SpacesPage />} />
           </Route>
           
           {/* Catch-all route */}
