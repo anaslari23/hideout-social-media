@@ -1,5 +1,7 @@
 
 **Hideout Social Media App**
+
+
 Hideout is social media app for gen-z's who love to stay connected and updated
 It's a new change in the worlf social media
 
