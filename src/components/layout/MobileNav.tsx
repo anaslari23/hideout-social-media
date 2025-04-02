@@ -1,6 +1,6 @@
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { 
   Home, 
   MessageSquare,
@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 
 const MobileNav: React.FC = () => {
+  const location = useLocation();
+  
   return (
     <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
       <div className="flex items-center justify-around py-3">
@@ -23,7 +25,7 @@ const MobileNav: React.FC = () => {
           }
         >
           <Home className="h-6 w-6" />
-          <span className={`mt-1 transition-all duration-200 text-xs ${
+          <span className={`mt-1 transition-all duration-200 ${
             location.pathname === "/feed" ? "text-sm font-medium" : "text-xs"
           }`}>Feed</span>
         </NavLink>
@@ -37,7 +39,7 @@ const MobileNav: React.FC = () => {
           }
         >
           <MessageSquare className="h-6 w-6" />
-          <span className={`mt-1 transition-all duration-200 text-xs ${
+          <span className={`mt-1 transition-all duration-200 ${
             location.pathname === "/threads" ? "text-sm font-medium" : "text-xs"
           }`}>Threads</span>
         </NavLink>
@@ -51,7 +53,7 @@ const MobileNav: React.FC = () => {
           }
         >
           <Users className="h-6 w-6" />
-          <span className={`mt-1 transition-all duration-200 text-xs ${
+          <span className={`mt-1 transition-all duration-200 ${
             location.pathname === "/connect" ? "text-sm font-medium" : "text-xs"
           }`}>Connect</span>
         </NavLink>
@@ -65,7 +67,7 @@ const MobileNav: React.FC = () => {
           }
         >
           <Camera className="h-6 w-6" />
-          <span className={`mt-1 transition-all duration-200 text-xs ${
+          <span className={`mt-1 transition-all duration-200 ${
             location.pathname === "/quickpic" ? "text-sm font-medium" : "text-xs"
           }`}>QuickPic</span>
         </NavLink>
@@ -79,7 +81,7 @@ const MobileNav: React.FC = () => {
           }
         >
           <Film className="h-6 w-6" />
-          <span className={`mt-1 transition-all duration-200 text-xs ${
+          <span className={`mt-1 transition-all duration-200 ${
             location.pathname === "/films" ? "text-sm font-medium" : "text-xs"
           }`}>Films</span>
         </NavLink>
@@ -93,7 +95,7 @@ const MobileNav: React.FC = () => {
           }
         >
           <Headphones className="h-6 w-6" />
-          <span className={`mt-1 transition-all duration-200 text-xs ${
+          <span className={`mt-1 transition-all duration-200 ${
             location.pathname === "/spaces" ? "text-sm font-medium" : "text-xs"
           }`}>Spaces</span>
         </NavLink>
