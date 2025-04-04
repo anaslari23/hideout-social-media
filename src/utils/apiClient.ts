@@ -87,12 +87,12 @@ const apiClient = {
   },
   
   // Helper for GET requests
-  async get<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  get<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request<T>(url, { ...options, method: 'GET' });
   },
   
   // Helper for POST requests
-  async post<T>(url: string, data?: any, options: RequestOptions = {}): Promise<T> {
+  post<T>(url: string, data?: any, options: RequestOptions = {}): Promise<T> {
     return this.request<T>(url, {
       ...options,
       method: 'POST',
@@ -101,7 +101,7 @@ const apiClient = {
   },
   
   // Helper for PUT requests
-  async put<T>(url: string, data?: any, options: RequestOptions = {}): Promise<T> {
+  put<T>(url: string, data?: any, options: RequestOptions = {}): Promise<T> {
     return this.request<T>(url, {
       ...options,
       method: 'PUT',
@@ -110,12 +110,12 @@ const apiClient = {
   },
   
   // Helper for DELETE requests
-  async delete<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  delete<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request<T>(url, { ...options, method: 'DELETE' });
   },
   
   // Helper for form submissions
-  async submitForm<T>(url: string, formData: FormData, options: RequestOptions = {}): Promise<T> {
+  submitForm<T>(url: string, formData: FormData, options: RequestOptions = {}): Promise<T> {
     return this.request<T>(url, {
       ...options,
       method: 'POST',
