@@ -1,21 +1,23 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const passport = require('passport');
-const authRoutes = require('./routes/auth.routes');
-const userRoutes = require('./routes/user.routes');
-const postRoutes = require('./routes/post.routes');
-const threadRoutes = require('./routes/thread.routes');
-const messageRoutes = require('./routes/message.routes');
-const filmRoutes = require('./routes/film.routes');
-const spaceRoutes = require('./routes/space.routes');
-const http = require('http');
-const setupWebSocket = require('./websocket/socket');
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import passport from 'passport';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { createServer } from 'http';
+import authRoutes from './routes/auth.routes.js';
+import userRoutes from './routes/user.routes.js';
+import postRoutes from './routes/post.routes.js';
+import threadRoutes from './routes/thread.routes.js';
+import messageRoutes from './routes/message.routes.js';
+import filmRoutes from './routes/film.routes.js';
+import spaceRoutes from './routes/space.routes.js';
+import setupWebSocket from './websocket/socket.js';
 
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 const io = setupWebSocket(server);
 
 // Middleware
@@ -40,6 +42,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something broke!' });
 });
 
-server.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
