@@ -1,0 +1,104 @@
+.thread-list {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.thread-item {
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: white;
+}
+
+.thread-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+}
+
+.thread-content {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.thread-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.reply-form {
+    margin-top: 10px;
+}
+
+.reply-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+.thread-reply {
+    margin-left: 20px;
+    padding: 10px;
+    border-left: 2px solid #e1e8ed;
+    margin-top: 10px;
+}
+
+.create-thread {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    background: white;
+}
+
+.create-thread textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+.thread-form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.character-count {
+    color: #657786;
+    font-size: 14px;
+}
+
+button {
+    background: #1da1f2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background: #9bd1f9;
+    cursor: not-allowed;
+}
