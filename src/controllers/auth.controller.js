@@ -1,87 +1,122 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const pool = require('../config/db');
-const { validateEmail, validatePassword } = require('../utils/validators');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { pool } from '../config/db.js';
+import { sendOTP as sendOTPService } from '../services/otp.service.js';
 
-const authController = {
-    register: async (req, res) => {
-        try {
-            const { username, email, password, full_name } = req.body;
+export const register = async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        const result = await pool.query(
+            'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email',
+            [username, email, hashedPassword]
+        );
 
-            if (!validateEmail(email) || !validatePassword(password)) {
-                return res.status(400).json({ error: 'Invalid email or password format' });
-            }
+        const token = jwt.sign(
+            { id: result.rows[0].id },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
 
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
-
-            const result = await pool.query(
-                'INSERT INTO users (username, email, password_hash, full_name) VALUES ($1, $2, $3, $4) RETURNING user_id, username, email',
-                [username, email, hashedPassword, full_name]
-            );
-
-            const token = jwt.sign(
-                { id: result.rows[0].user_id },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-
-            res.status(201).json({
-                user: result.rows[0],
-                token
-            });
-        } catch (err) {
-            if (err.constraint === 'users_email_key') {
-                return res.status(409).json({ error: 'Email already exists' });
-            }
-            if (err.constraint === 'users_username_key') {
-                return res.status(409).json({ error: 'Username already taken' });
-            }
-            res.status(500).json({ error: err.message });
-        }
-    },
-
-    login: async (req, res) => {
-        try {
-            const { email, password } = req.body;
-
-            const result = await pool.query(
-                'SELECT user_id, username, email, password_hash FROM users WHERE email = $1',
-                [email]
-            );
-
-            if (result.rows.length === 0) {
-                return res.status(401).json({ error: 'Invalid credentials' });
-            }
-
-            const validPassword = await bcrypt.compare(password, result.rows[0].password_hash);
-            if (!validPassword) {
-                return res.status(401).json({ error: 'Invalid credentials' });
-            }
-
-            await pool.query(
-                'UPDATE users SET last_login = NOW() WHERE user_id = $1',
-                [result.rows[0].user_id]
-            );
-
-            const token = jwt.sign(
-                { id: result.rows[0].user_id },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-
-            res.json({
-                user: {
-                    id: result.rows[0].user_id,
-                    username: result.rows[0].username,
-                    email: result.rows[0].email
-                },
-                token
-            });
-        } catch (err) {
+        res.status(201).json({
+            user: result.rows[0],
+            token
+        });
+    } catch (err) {
+        if (err.code === '23505') { // unique violation
+            res.status(400).json({ error: 'Email already exists' });
+        } else {
             res.status(500).json({ error: err.message });
         }
     }
 };
 
-module.exports = authController;
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        const result = await pool.query(
+            'SELECT * FROM users WHERE email = $1',
+            [email]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const user = result.rows[0];
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if (!validPassword) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign(
+            { id: user.id },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        res.json({
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email
+            },
+            token
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const getCurrentUser = async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT id, username, email FROM users WHERE id = $1',
+            [req.user.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const sendOTP = async (req, res) => {
+    try {
+        const { phoneNumber } = req.body;
+        await sendOTPService(phoneNumber);
+        res.json({ message: 'OTP sent successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const verifyOTP = async (req, res) => {
+    try {
+        const { phoneNumber, otp } = req.body;
+        const result = await pool.query(
+            'SELECT * FROM otp_verification WHERE phone_number = $1 AND otp_code = $2 AND expires_at > NOW()',
+            [phoneNumber, otp]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(400).json({ error: 'Invalid OTP' });
+        }
+
+        await pool.query(
+            'UPDATE otp_verification SET verified = true WHERE id = $1',
+            [result.rows[0].id]
+        );
+
+        res.json({ message: 'OTP verified successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
