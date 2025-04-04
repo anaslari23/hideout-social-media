@@ -1,45 +1,74 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Facebook, 
   Instagram, 
   MessageCircle,
-  SkipForward
+  SkipForward,
+  X,
+  AlertCircle
 } from "lucide-react";
 import AuthLayout from "./AuthLayout";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{username?: string; password?: string}>({});
+  const { login, socialLogin, isLoading } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Login logic would go here
-    console.log("Login attempt with:", username, password);
-    
-    // Simulate login delay
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate("/feed");
-    }, 1000);
+  const validateForm = () => {
+    const newErrors: {username?: string; password?: string} = {};
+    if (!username) newErrors.username = "Username is required";
+    if (!password) newErrors.password = "Password is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSocialLogin = (provider: string) => {
-    setIsLoading(true);
-    console.log(`Attempting to login with ${provider}`);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     
-    // In a real implementation, this would redirect to the OAuth flow
-    // For now, we'll simulate a successful login after a delay
-    setTimeout(() => {
-      setIsLoading(false);
+    if (!validateForm()) return;
+    
+    const success = await login(username, password);
+    
+    if (success) {
+      toast({
+        title: "Login successful",
+        description: "Welcome back to Hideout!",
+      });
       navigate("/feed");
-    }, 1000);
+    } else {
+      toast({
+        title: "Login failed",
+        description: "Invalid username or password",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSocialLogin = async (provider: string) => {
+    const success = await socialLogin(provider);
+    
+    if (success) {
+      toast({
+        title: `${provider} login successful`,
+        description: "Welcome to Hideout!",
+      });
+      navigate("/feed");
+    } else {
+      toast({
+        title: "Login failed",
+        description: `Could not connect to ${provider}`,
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSkip = () => {
@@ -56,34 +85,44 @@ const LoginPage: React.FC = () => {
         
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <input
+            <Input
               type="text"
-              placeholder="User name"
-              className="auth-input"
+              placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
+              className={errors.username ? "border-red-500" : ""}
+              disabled={isLoading}
             />
+            {errors.username && (
+              <div className="text-red-500 text-sm mt-1 flex items-center">
+                <AlertCircle size={14} className="mr-1" /> {errors.username}
+              </div>
+            )}
           </div>
           
           <div>
-            <input
+            <Input
               type="password"
               placeholder="Password"
-              className="auth-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
+              className={errors.password ? "border-red-500" : ""}
+              disabled={isLoading}
             />
+            {errors.password && (
+              <div className="text-red-500 text-sm mt-1 flex items-center">
+                <AlertCircle size={14} className="mr-1" /> {errors.password}
+              </div>
+            )}
           </div>
           
-          <button 
+          <Button 
             type="submit" 
-            className="auth-button"
+            className="w-full bg-purple-600 hover:bg-purple-700"
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Login"}
-          </button>
+          </Button>
         </form>
         
         <div className="flex items-center justify-center space-x-2 mt-6">
@@ -104,6 +143,7 @@ const LoginPage: React.FC = () => {
             <button 
               className="rounded-full p-2 bg-pink-500 text-white hover:bg-pink-600 transition-colors"
               onClick={() => handleSocialLogin("Instagram")}
+              disabled={isLoading}
               aria-label="Login with Instagram"
             >
               <Instagram size={16} />
@@ -111,13 +151,23 @@ const LoginPage: React.FC = () => {
             <button 
               className="rounded-full p-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
               onClick={() => handleSocialLogin("Facebook")}
+              disabled={isLoading}
               aria-label="Login with Facebook"
             >
               <Facebook size={16} />
             </button>
             <button 
+              className="rounded-full p-2 bg-slate-800 text-white hover:bg-slate-900 transition-colors"
+              onClick={() => handleSocialLogin("X")}
+              disabled={isLoading}
+              aria-label="Login with X"
+            >
+              <X size={16} />
+            </button>
+            <button 
               className="rounded-full p-2 bg-yellow-500 text-white hover:bg-yellow-600 transition-colors"
               onClick={() => handleSocialLogin("SMS")}
+              disabled={isLoading}
               aria-label="Login with SMS"
             >
               <MessageCircle size={16} />
