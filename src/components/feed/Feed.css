@@ -1,0 +1,81 @@
+.feed-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.feed-post {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+    color: #14171a;
+}
+
+.post-content {
+    margin-bottom: 15px;
+}
+
+.post-text {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.post-media {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.post-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.like-button {
+    background: transparent;
+    border: none;
+    color: #657786;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like-button.liked {
+    color: #e0245e;
+}
+
+.load-more {
+    width: 100%;
+    padding: 10px;
+    background: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.load-more:hover {
+    background: #1991db;
+}
